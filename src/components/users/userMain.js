@@ -9,15 +9,14 @@ import Display from './display';
 class UserMain extends Component{
     constructor(props){
         super (props);
-
+        //
         this.state={
             user:'',
-            redirect:false,
-            logs:this.props.userLogs
+            redirect:false
             }
     }
     componentDidMount(){
-        //Completed User logged in check with redirection to Login if not a match with url 4/27/2020
+        //Need to improve USER privilage access logic
         Axios.get('http://localhost:5000/users/check',{withCredentials:true})
         .then (response=>{            
             if (response.data!==this.props.match.params.user){                

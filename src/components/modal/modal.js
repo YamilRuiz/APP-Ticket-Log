@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React from 'react';
 import { Dialog, Card, CardContent, CardActions } from '@material-ui/core';
 import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
@@ -13,7 +13,6 @@ const initial= user.charAt(0).toUpperCase()
 const handleClose=()=>{
     setOpen(false);
 }
-console.log(selectedLog)
     return(
         <Dialog open={open} >
             <Card>
