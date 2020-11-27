@@ -13,8 +13,7 @@ function LogList(props){
     const {user,userLogs}=props
     const [open,setOpen]= useState(false)
     const [selectedLog,setSelectedLog]= useState({})
-   
- 
+
     return(
         <Fragment>
         <div>
@@ -30,9 +29,10 @@ function LogList(props){
                         <ListItem
                             key={index}
                             button
-                            
+                            onClick={()=> console.log('click test')}                           
                             >
-                            <ListItemText primary={log.ticket+"   "+log.site} />                                
+                            <ListItemText primary={log.ticket+"   "+log.site}
+                                 />                                
                                 <ListItemSecondaryAction>                        
                                     <IconButton                                           
                                          onClick={()=> {return setSelectedLog(log), setOpen(true)}}>                                          

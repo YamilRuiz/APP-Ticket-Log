@@ -1,13 +1,5 @@
-
-import React,{Component} from "react"
-import {GoogleMap, Marker} from "@react-google-maps/api"
-
-
-const Data=[
-    { site:'DXL01234',lat:32.884254, lng:-97.276890,visible:true,bounce:false},
-    { site:'DXL01238',lat:32.883707, lng:-97.275264,visible:true,bounce:false},
-    { site:'DXL01235',lat:32.885096, lng: -97.269809,visible:true,bounce:true}
-]
+import React,{Component} from "react";
+import {GoogleMap, Marker} from "@react-google-maps/api";
 
 
 const containerStyle = {
@@ -19,18 +11,12 @@ class TheMap extends Component {
     super(props);
     this.onMarkerclick=this.onMarkerclick.bind(this);
     this.state={
-      center:{ lat: Data[0].lat, lng:Data[0].lng},
-      data:[],
+      
+      center:{ lat: props.userLogs[0].lat, lng:props.userLogs[0].lng},
       site:"",
       listTickets:this.props.userLogs
     }   
   } 
-  componentDidMount(){
-    
-    this.setState({
-        data:Data
-    })
-  }
  
   onMarkerclick(siteName){
   

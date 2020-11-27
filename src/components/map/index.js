@@ -5,8 +5,8 @@ import TheMap from './map';
 function Map() {
     return (
           <UsersContext.Consumer>{(
-            {user,setUser,userLogs})=>
-            (<TheMap user={user} setUser={setUser} userLogs={userLogs}/>)}
+            {user,setUser,userLogs,clickLog,setClickLog})=>
+            (<TheMap user={user} setUser={setUser} userLogs={userLogs} clickLog={clickLog} setClickLog={setClickLog}/>)}
           </UsersContext.Consumer>        
     );
   }

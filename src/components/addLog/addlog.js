@@ -9,7 +9,6 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Typography from '@material-ui/core/Typography';
 import Switch from '@material-ui/core/Switch';
-import TheMap from "../map/map";
 
 //Need to change all to adapt to add log form
 
@@ -214,7 +213,7 @@ class AddForm extends Component{
                             </Button>
                             </ButtonBase>                        
                     </form>
-                    <TheMap />
+                    
                 </div>
             )
     }

@@ -14,13 +14,16 @@ export class UserContextProvider extends Component{
         user:'yamil',
         name:'Bob',
         loggedIn:true,
-        userLogs:Data        
+        userLogs:Data,
+        clickLog:[]        
     }
     setUser = (u)=>{this.setState({user:u})};
-    setUserLogs= (u)=>{this.setState({userLogs:u})}
+    setUserLogs= (u)=>{this.setState({userLogs:u})};
+    setClickLog=(u)=>{this.setState({clickLog:u})}
     render(){
         return(
-            <UsersContext.Provider value={{user:this.state.user, setUser: this.setUser, userLogs: this.state.userLogs}}>
+            <UsersContext.Provider value={{user:this.state.user, setUser: this.setUser,
+             userLogs: this.state.userLogs, clickLog:this.state.clickLog, setClickLog:this.state.setClickLog}}>
                 {this.props.children}
             </UsersContext.Provider>
         )
