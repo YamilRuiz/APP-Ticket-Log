@@ -58,7 +58,7 @@ routerLogs.get('/find',(req,res)=>{
     }) 
 })
 
-//Route to add site to user array for display in site list 07/10/2020
+//Route to add site to user array for display in site list. Need to change create the site list on the user model
 routerLogs.post('/addsite',(req,res)=>{
     const newSite= {name:req.body.site,lat:req.body.lat,lng:req.body.lng}
     const extractedArray=[];
@@ -83,10 +83,12 @@ routerLogs.post('/addsite',(req,res)=>{
     res.end();
    
 })
-
-router.post('/sitetickets',(req,res)=>{
+// Needs to be completed to return the data per site 
+routerLogs.post('/sitetickets',(req,res)=>{
     if (req.isAuthenticated()){       
-        Log.find({ name: req.body.tech, site:req.body.site, function (err, docs) {}});
+        Log.find({ name: req.body.tech, site:req.body.site, function (err, docs) {
+            res.send(docs)
+        }});
        
     }else{
         console.log("Not Authorized")

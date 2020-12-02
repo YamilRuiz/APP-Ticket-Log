@@ -11,12 +11,7 @@ const logSchema= new Schema({
         type:Number,
         required: true,
         trim: true,
-        minlength:6
-    },
-    ticket:{
-        type:String,
-        reuired:true,
-        minlength:14
+        minlength:5
     },
     coords:{
         coordinates:{
@@ -30,10 +25,6 @@ const logSchema= new Schema({
     },
     hidden:{
         type:Boolean
-    },
-    description:{
-        type:String,
-        required:true
     }
 },{
     timestamps:true

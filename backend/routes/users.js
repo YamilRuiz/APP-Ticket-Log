@@ -79,17 +79,15 @@ router.post('/find',(req,res)=>{
 
 
     // Fisrt step in creation of relationship for logs
-    User.findOne({username:'manin'}, '_id',function (err,user){
+    User.findOne({username:'yamil'}, '_id',function (err,user){
         if (err){
             console.log(err)
         }else{
+            console.log(user)
             res.send(user)
         }
     })
     
 
 })
-
-
-
 module.exports=router;
