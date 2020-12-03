@@ -75,16 +75,35 @@ router.get('/firstcheck',(req,res)=>{
     }
 });
 
-router.post('/find',(req,res)=>{
+//Adding a site location to the specific user
+
+router.post('/addsite',(req,res)=>{
+    const location =  {
+        site:'site',
+        coords:{
+            coordinates:{
+                lat:'lat',
+                lng:'lng'
+            }
+        },
+        hidden:false,
+        bounce:false
+    }
 
 
-    // Fisrt step in creation of relationship for logs
-    User.findOne({username:'yamil'}, '_id',function (err,user){
-        if (err){
-            console.log(err)
+  
+    User.findOne({username:'yamil'},function (err,user){
+        if (user){
+            loc= user.siteLogs.filter(function (loc){
+                if (loc.site===location.site)
+                return true
+            })
+            if (loc===false){
+                user.siteLogs.push(location)
+            }
         }else{
-            console.log(user)
-            res.send(user)
+            console.log(err)
+            
         }
     })
     

@@ -3,7 +3,7 @@ const Schema= mongoose.Schema;
 const bcrypt = require('bcrypt');
 
 
-const logSchema= new Schema({
+const siteSchema= new Schema({
     user:{
         type:Schema.Types.ObjectId, ref: 'User'
     },
@@ -25,6 +25,9 @@ const logSchema= new Schema({
     },
     hidden:{
         type:Boolean
+    },
+    bounce:{
+        type:Boolean
     }
 },{
     timestamps:true
@@ -42,7 +45,7 @@ const userSchema= new Schema({
         type:String,
     },
     sites:[],
-	userLogs:[logSchema]
+	siteLogs:[siteSchema]
 },{
     timestamps:true
 });
@@ -67,6 +70,6 @@ userSchema.pre('save', function (next) {
 	}
 })
 const User= new mongoose.model('User',userSchema);
-const UserLog = new mongoose.model('UserLog',logSchema)
+const SiteLog = new mongoose.model('UserLog',siteSchema)
 
-module.exports=User,UserLog;
+module.exports=User,SiteLog;
