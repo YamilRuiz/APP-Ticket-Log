@@ -75,38 +75,43 @@ router.get('/firstcheck',(req,res)=>{
     }
 });
 
-//Adding a site location to the specific user
+//Adding a site location to the specific user completed/ Need to change so it accepts req.body information
 
 router.post('/addsite',(req,res)=>{
     const location =  {
-        site:'site',
+        site:'dxl66666',
         coords:{
             coordinates:{
-                lat:'lat',
-                lng:'lng'
+                lat:32.4562,
+                long:-96.4545
             }
         },
         hidden:false,
         bounce:false
     }
-
-
   
     User.findOne({username:'yamil'},function (err,user){
         if (user){
-            loc= user.siteLogs.filter(function (loc){
-                if (loc.site===location.site)
-                return true
+            const arr = user.userLogs
+            const siteExist = arr.find(o=>{
+                return o.site === location.site;
             })
-            if (loc===false){
-                user.siteLogs.push(location)
+            if (siteExist===undefined){
+                user.userLogs.push(location)
+                user.save()
             }
-        }else{
-            console.log(err)
-            
-        }
-    })
-    
 
+            console.log(siteExist)
+            res.end();
+    }
+    })
 })
+
+router.post('/find',(req,res)=>{  
+     User.findOne({username:'yamil'},function (err,file){
+        console.log(file.sites[0])
+        res.send(file)
+     }) 
+ })
+ 
 module.exports=router;

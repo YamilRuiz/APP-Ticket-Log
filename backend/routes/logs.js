@@ -48,12 +48,14 @@ routerLogs.post('delete',(req,res)=>{
 })
 routerLogs.get('/find',(req,res)=>{  
    // Needs to be change to get info from log model only, aslo change to get request
-    Log.find({site:'yamil'},function (err,file){
+    Log.find({tech:'manin'},function (err,file){
         if (err){
             console.log(err)
+            res.end()
         }else{
-            const result = file.userLogs      
+            const result = file
             res.send(result)
+            res.end();
         }
     }) 
 })

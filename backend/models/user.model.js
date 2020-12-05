@@ -8,7 +8,7 @@ const siteSchema= new Schema({
         type:Schema.Types.ObjectId, ref: 'User'
     },
     site:{
-        type:Number,
+        type:String,
         required: true,
         trim: true,
         minlength:5
@@ -45,7 +45,7 @@ const userSchema= new Schema({
         type:String,
     },
     sites:[],
-	siteLogs:[siteSchema]
+	userLogs:[siteSchema]
 },{
     timestamps:true
 });
@@ -70,6 +70,6 @@ userSchema.pre('save', function (next) {
 	}
 })
 const User= new mongoose.model('User',userSchema);
-const SiteLog = new mongoose.model('UserLog',siteSchema)
+const SiteLog = new mongoose.model('SiteLog',siteSchema)
 
 module.exports=User,SiteLog;
