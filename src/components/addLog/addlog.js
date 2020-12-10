@@ -74,7 +74,14 @@ class AddForm extends Component{
         e.preventDefault();
         // Function to add site to user document
         function addSite(){
-            return axios.post('http://localhost:5000/users/findsites',{tech:this.state.tech},{withCredentials:true})
+            return axios.post('http://localhost:5000/users/addsite',{
+                tech:this.state.tech,
+                site:this.state.site,
+                lat:this.state.lat,
+                lng:this.state.lng,
+                hidden:false,
+                bounce:false
+                },{withCredentials:true})
         }
         // Function to add log to logs documents
         function postLog(){

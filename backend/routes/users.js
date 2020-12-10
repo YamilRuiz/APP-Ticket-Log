@@ -74,7 +74,7 @@ router.get('/firstcheck',(req,res)=>{
         res.sendStatus(500)
     }
 });
-// need to change to accepte the request body
+// need to change to accept the request body
 router.post('/findsites',(req,res)=>{
     User.findOne({username:'yamil'},function(err,user){
         const userSites= user.userLogs;        
