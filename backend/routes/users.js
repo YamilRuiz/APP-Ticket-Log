@@ -74,12 +74,19 @@ router.get('/firstcheck',(req,res)=>{
         res.sendStatus(500)
     }
 });
-
+// need to change to accepte the request body
+router.post('/findsites',(req,res)=>{
+    User.findOne({username:'yamil'},function(err,user){
+        const userSites= user.userLogs;        
+        res.send(userSites)
+        res.end();
+    })
+})
 //Adding a site location to the specific user completed/ Need to change so it accepts req.body information
 
 router.post('/addsite',(req,res)=>{
     const location =  {
-        site:'dxl66666',
+        site:'dxl66766',
         coords:{
             coordinates:{
                 lat:32.4562,
@@ -92,6 +99,7 @@ router.post('/addsite',(req,res)=>{
   
     User.findOne({username:'yamil'},function (err,user){
         if (user){
+            
             const arr = user.userLogs
             const siteExist = arr.find(o=>{
                 return o.site === location.site;
@@ -101,17 +109,12 @@ router.post('/addsite',(req,res)=>{
                 user.save()
             }
 
-            console.log(siteExist)
+            console.log(arr[0].coords.coordinates.long)
             res.end();
     }
     })
 })
 
-router.post('/find',(req,res)=>{  
-     User.findOne({username:'yamil'},function (err,file){
-        console.log(file.sites[0])
-        res.send(file)
-     }) 
- })
+
  
 module.exports=router;

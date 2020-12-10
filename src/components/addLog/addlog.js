@@ -10,6 +10,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Typography from '@material-ui/core/Typography';
 import Switch from '@material-ui/core/Switch';
 
+
 //Need to change all to adapt to add log form
 
 const style = theme=>( {
@@ -71,7 +72,13 @@ class AddForm extends Component{
     
     onSubmit(e){
         e.preventDefault();
-        axios.post('http://localhost:5000/logs/add',{
+        // Function to add site to user document
+        function addSite(){
+            return axios.post('http://localhost:5000/users/findsites',{tech:this.state.tech},{withCredentials:true})
+        }
+        // Function to add log to logs documents
+        function postLog(){
+            return axios.post('http://localhost:5000/logs/add',{
             tech:this.state.tech,
             pending:this.state.pending,
             ticket:this.state.ticket,
@@ -79,25 +86,27 @@ class AddForm extends Component{
             lat:this.state.lat,
             lng:this.state.lng,
             description:this.state.description
-
-        },{withCredentials:true})
-        .then(response=>{
-            if (response.status===200){
-                this.setState({
-                    redirect:true                    
-                })
-                const baseUrl="/network_log/";
-                const addOnUrl=this.state.tech
-                return <Redirect push to={baseUrl+addOnUrl}/>
-            }           
-        })
-        .catch (error=>{
-            if(error){
-                console.log(error)
-            this.setState({fail:'Something went wrong, Log not saved'})
-            }
-            alert(this.state.fail)
-        })
+            },{withCredentials:true})            
+        }
+        // Completed axios call add site to user and and addlog to Database
+        axios.all([postLog(),addSite()])
+            .then(responseArr=>{
+                if (responseArr[0].status===200){
+                    this.setState({
+                        redirect:true                    
+                    })
+                    const baseUrl="/network_log/";
+                    const addOnUrl=this.state.tech
+                    return <Redirect push to={baseUrl+addOnUrl}/>
+                }
+            })
+            .catch (error=>{
+                if(error){
+                    console.log(error)
+                this.setState({fail:'Something went wrong, Log not saved'})
+                }
+                alert(this.state.fail)
+            })
         this.setState({
             ticket:'',
             site:'',

@@ -60,31 +60,7 @@ routerLogs.get('/find',(req,res)=>{
     }) 
 })
 
-//Route to add site to user array for display in site list. Need to change create the site list on the user model
-routerLogs.post('/addsite',(req,res)=>{
-    const newSite= {name:req.body.site,lat:req.body.lat,lng:req.body.lng}
-    const extractedArray=[];
-    const extractFunc= list=>{
-        Object.entries(list).forEach(site=>{       
-             extractedArray.push(`${site[1].name}`)
-     })
-    }
-    const finder= e=>{
-        return e===newSite.name
-    }
-    User.findOne({username:'yamil'},function (err,log){
-        const array=log.sites;
-        extractFunc(array)
-        if (extractedArray.some(finder)===true){
-            console.log('Site is present on the User List')
-        }else{
-            log.sites.push(newSite)
-            log.save()
-        }       
-    })    
-    res.end();
-   
-})
+
 // Needs to be completed to return the data per site 
 routerLogs.post('/sitetickets',(req,res)=>{
     if (req.isAuthenticated()){       

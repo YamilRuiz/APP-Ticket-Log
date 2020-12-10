@@ -28,8 +28,7 @@ const style = theme=>( {
     }
   });
 class Login extends Component{
-    constructor(props){
-        
+    constructor(props){        
         super(props);
         this.onSubmit=this.onSubmit.bind(this);
         this.onChangeUsername=this.onChangeUsername.bind(this);
