@@ -2,11 +2,11 @@ import React from 'react';
 import {UsersContext} from '../../contexts/UserContext'
 import AddForm from './addlog';
 
-function AddLogForm() {
+function AddLogForm(props) {
     return (
         <UsersContext.Consumer>{(
-            {user,setUser})=>
-            (<AddForm user={user} setUser={setUser} />)}
+            {user,setUser, props})=>
+            (<AddForm user={user} setUser={setUser}open={props} />)}
           </UsersContext.Consumer>        
     );
   }

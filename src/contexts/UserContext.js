@@ -11,19 +11,22 @@ export const UsersContext = React.createContext();
 
 export class UserContextProvider extends Component{
     state={
-        user:'yamil',
-        name:'Bob',
-        loggedIn:true,
+        user:'yr3564',
+        loggedIn:false,
         userLogs:Data,
-        clickLog:[]        
+        userSites:[]        
     }
     setUser = (u)=>{this.setState({user:u})};
     setUserLogs= (u)=>{this.setState({userLogs:u})};
-    setClickLog=(u)=>{this.setState({clickLog:u})}
+    setUserSites= (u)=>{this.setState({userSites:u})};
+    setClickLog=(u)=>{this.setState({clickLog:u})};
+    setloggedIn=(u)=>{this.setState({loggedIn:u})}
     render(){
         return(
-            <UsersContext.Provider value={{user:this.state.user, setUser: this.setUser,
-             userLogs: this.state.userLogs, clickLog:this.state.clickLog, setClickLog:this.state.setClickLog}}>
+            <UsersContext.Provider value={{user:this.state.user, loggedIn:this.state.loggedIn,
+            setUser: this.setUser, setUserLogs:this.setUserLogs, 
+            setUserSites:this.setUserSites, setloggedIn:this.setloggedIn,
+            userLogs: this.state.userLogs}}>
                 {this.props.children}
             </UsersContext.Provider>
         )

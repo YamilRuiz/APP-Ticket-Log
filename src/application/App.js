@@ -1,17 +1,18 @@
-import React,{Component, Fragment}  from 'react';
-import {BrowserRouter as Router, Route} from 'react-router-dom'; 
-import {Link as RouterLink} from 'react-router-dom'
+import React,{Component}  from 'react';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {Link as RouterLink} from 'react-router-dom';
+import Button from '@material-ui/core/Button';
 import Registration from '../components/registration/registration.component';
 import LoginForm from '../components/login/index.js';
 import UserDisplay from '../components/users/index';
+import NavDisplay from '../components/navbar/index';
+import HomeCard from '../components/home/home';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import AddLogForm from '../components/addLog/index';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import cover from '../images/cover.jpg'
 
@@ -38,84 +39,74 @@ const style = theme=>( {
     padding:10,
     alignContent:'auto'
  },
+
+  middleContainer:{
+    backgroundImage: 'url('+cover+')',
+    backgroundColor:'black',
+		backgroundRepeat: "no-repeat",
+		backgroundPosition: "center center",
+		backgroundSize: "cover",
+		backgroundAttachment: "fixed",
+    justifyContent:"center",
+    width:"100%"
+ },
  footer:{
-    height:250
- }
+    height:250,
+    backgroundColor:'gray',
+    width:"100%"
+ },
+ gridCard:{
+  justifyContent:"center"
+}
 });
 
 
-function NavStatus(props){
-   const logged=props.logged
-   
-     if (logged){
-       return(
-        <Button color="inherit">Logout</Button>
-       )        
-     }else{
-      return(
-        <Fragment>
-          <Button color="inherit" component={RouterLink} to="/login" >Login</Button>
-          <Button color="inherit" component={RouterLink} to="/register">Register</Button>
-        </Fragment>
-      )
-     }
+ class App extends Component{ 
 
-}
-
- class App extends Component{
-  constructor(props){
-        
-    super(props);
-    
-    this.state={
-        logged:false
-    }      
-  } 
   componentDidMount(){
-    //Completed User logged in check with redirection to Login if not a match with url 4/27/2020
-    axios.get('http://localhost:5000/users/firstcheck',{withCredentials:true})
+    axios.get('http://localhost:5000/users/check',{withCredentials:true})
     .then (response=>{
-        if (response.status===200){
-          this.setState({logged:true})
+        if (response.data ==="valid"){
+          this.props.setloggedIn(true)
         }else{
-          this.setState({logged:false}) 
-        }       
+          this.props.setloggedIn(false)
+        }      
     })       
     .catch( error=>{console.log(error)})        
-}
+  }
+  // Need to remove adddlog route since addlog form is now a modal 01/102021
   render(){
     const {classes}=this.props;
-    const loggedin = this.state.logged;
     return (
       <Router>          
-         <div >
+         
           <Grid container >
             <Grid item xs={12}>
               <Paper>
                 <AppBar position="static" className={classes.root}>
                   <Toolbar>                  
                     <Typography variant="h6" className={classes.title}>
-                      AT&T Network Log
+                        <Button color="inherit" component={RouterLink} to="/">AT&T Network Log</Button>
                     </Typography>
-                    <NavStatus logged={loggedin}/>
+                    <NavDisplay />
                   </Toolbar>
                 </AppBar>
               </Paper>
             </Grid>         
           </Grid>
-        </div>
-        <Grid  item xs={12} sm={12}>
-              <Paper className={classes.middle} >
-                <Route exact path="/Network_Log" />
+       
+        <Grid container xs={12} sm={12} alignContent='center' className={classes.middleContainer}>
+              <Grid container  xs={12} className={classes.gridCard}>
+                <Route exact path= "/" component= {HomeCard} />
+                <Route path="/network_log" component={HomeCard} />
                 <Route exact path="/register" component={Registration}/>
                 <Route exact path="/login" component={LoginForm}/>
-                <Route exact path="/addlog" component={AddLogForm}/>
                 <Route exact path="/Network_Log/:user" component={UserDisplay}/>               
-              </Paper>
+              </Grid>
         </Grid>          
    
-          <Grid item xs={12} sm={12}>
-              <Paper className={classes.footer} elevation={0}>Footer</Paper>
+          <Grid container xs={12} sm={12}>
+              <Paper className={classes.footer} elevation={0}>Site Map Information </Paper>
           </Grid>
       </Router>
     );

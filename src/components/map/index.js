@@ -6,7 +6,7 @@ function Map() {
     return (
           <UsersContext.Consumer>{(
             {user,setUser,userLogs,clickLog,setClickLog})=>
-            (<TheMap user={user} setUser={setUser} userLogs={userLogs} clickLog={clickLog} setClickLog={setClickLog}/>)}
+            (<TheMap user={user} setUser={setUser} userLogs={userLogs} />)}
           </UsersContext.Consumer>        
     );
   }

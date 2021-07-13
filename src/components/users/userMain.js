@@ -11,20 +11,18 @@ class UserMain extends Component{
         super (props);
         //
         this.state={
-            user:'',
+            user:this.props.user,
             redirect:false
             }
     }
+
+
     componentDidMount(){
         //Need to improve USER privilage access logic
         Axios.get('http://localhost:5000/users/check',{withCredentials:true})
-        .then (response=>{            
-            if (response.data!==this.props.match.params.user){                
+        .then (response=>{      
+            if (response.data==="invalid"){                
                 this.setState({redirect:true});            
-            }else{
-                this.setState({
-                    user:response.data
-                })               
             }
         })       
         .catch( error=>{console.log(error)})       

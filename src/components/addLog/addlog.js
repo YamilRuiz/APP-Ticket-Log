@@ -1,7 +1,7 @@
 import React,{Component}from "react";
 import axios from 'axios';
+import { Dialog} from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { Redirect } from "react-router-dom";
 import TextField from '@material-ui/core/TextField';
 import SaveIcon from '@material-ui/icons/Save';
 import Button from '@material-ui/core/Button';
@@ -12,11 +12,11 @@ import Switch from '@material-ui/core/Switch';
 
 
 //Need to change all to adapt to add log form
-
+const reload=()=>window.location.reload();
 const style = theme=>( {
     root:{       
         maxWidth: 500,
-        minWidth:400,
+        minWidth:375,
         margin:'auto',
         backgroundColor: '#f5f5f5',
         padding: 20,
@@ -27,6 +27,11 @@ const style = theme=>( {
     },
     texInputs:{
         padding:5
+    },
+    button:{
+        display:'flex',
+        justifyContent: 'space-evenly',
+        marginTop:10
     }
   });
 
@@ -43,32 +48,16 @@ class AddForm extends Component{
         this.state={
             fail:'',                 
             redirect: false,
-            tech:'',
+            tech:this.props.user,
             pending: false,
             ticket:'',
             site:'',
             lat:0,
             lng:0,
-            description:''   
-        }
-        console.log(this.props)               
+            description:''
+        }              
     }
-    componentDidMount(){
-       
-        //Need to correct code to redirect to mainpage in case user is not logged in 6/6/2020
-        axios.get('http://localhost:5000/users/firstcheck',{withCredentials:true})
-        .then (response=>{            
-            if (response.data!==this.props.user){                
-                this.setState({redirect:true});                            
-            }else{
-                this.setState({
-                    tech:this.props.user
-                })
-            }
-        })       
-        .catch( error=>{console.log(error)})
-        
-    }
+   
     
     onSubmit(e){
         e.preventDefault();
@@ -95,16 +84,12 @@ class AddForm extends Component{
             description:this.state.description
             },{withCredentials:true})            
         }
-        // Completed axios call add site to user and and addlog to Database
+        // Need to change logic of redirecting since was converted to a modal
         axios.all([postLog(),addSite()])
             .then(responseArr=>{
                 if (responseArr[0].status===200){
-                    this.setState({
-                        redirect:true                    
-                    })
-                    const baseUrl="/network_log/";
-                    const addOnUrl=this.state.tech
-                    return <Redirect push to={baseUrl+addOnUrl}/>
+                    this.props.setAddLogOpen(false);
+                    reload();
                 }
             })
             .catch (error=>{
@@ -156,81 +141,92 @@ class AddForm extends Component{
     render(){
         const {classes}=this.props
             return(
-               <div className={classes.root}>
-                    <Typography variant="h6" className={classes.title}>
-                        Create Log
-                    </Typography>
-                    <form className={classes.form} validate='true' autoComplete="off">                       
-                            <TextField className={classes.texInputs}
-                                id="user"
-                                label="User"
-                                type="string"
-                                value={this.state.tech}                                
-                                InputLabelProps={{
-                                    readOnly: true,
-                                }}
-                            /> 
-                            <TextField className={classes.texInputs}
-                                required
-                                id="ticketNumber"
-                                type="string"
-                                label="Ticket Number"
-                                placeholder="TT0000000000"
-                                onChange={this.onChangeTicket}
-                            />
-                            <TextField className={classes.texInputs}
-                                required
-                                id="site"
-                                label="site"
-                                type="string"
-                                placeholder="dxl00000"
-                                onChange={this.onChangeSite}
-                            />
-                            <TextField className={classes.texInputs}
-                                required 
-                                id="lat" 
-                                label="Latitude" 
-                                placeholder="32.1234566"
-                                onChange={this.onChangeLat}
-                            />
-                            <TextField className={classes.texInputs}
-                                required 
-                                id="lng" 
-                                label="Longitude" 
-                                placeholder="-97.023145"
-                                onChange={this.onChangeLng}
-                            />
-                            <TextField className={classes.texInputs} 
-                                required 
-                                id="description" 
-                                label="Description"
-                                type="string"
-                                multiline
-                                rowsMax={4} 
-                                placeholder="Explain Work"
-                                onChange={this.onChangeDesc}                        
-                            />                                                   
-                            <FormControlLabel className={classes.texInputs}
-                                control={<Switch 
-                                size="small"
-                                color="primary"
-                                name="pending" />}
-                                label="Pending Work?"
-                                onChange={this.handleSwitchChange}
-                            />
-                            <ButtonBase type='submit' onSubmit={this.onSubmit}>
-                            <Button onclassName={classes.texInputs}
-                                variant="contained"
-                                color="primary"
-                                size="small"
-                                startIcon={<SaveIcon />}
-                            >
-                                Save
-                            </Button>
-                            </ButtonBase>                        
-                    </form>
-                    
-                </div>
+                <Dialog open={this.props.addLogOpen}>
+                <div className={classes.root}>
+                        <Typography variant="h6" className={classes.title}>
+                            Create Log
+                        </Typography>
+                        <form className={classes.form} validate='true' autoComplete="off">                       
+                                <TextField className={classes.texInputs}
+                                    id="user"
+                                    label="User"
+                                    type="string"
+                                    value={this.state.tech}                                
+                                    InputLabelProps={{
+                                        readOnly: true,
+                                    }}
+                                /> 
+                                <TextField className={classes.texInputs}
+                                    required
+                                    id="ticketNumber"
+                                    type="string"
+                                    label="Ticket Number"
+                                    placeholder="TT0000000000"
+                                    onChange={this.onChangeTicket}
+                                />
+                                <TextField className={classes.texInputs}
+                                    required
+                                    id="site"
+                                    label="site"
+                                    type="string"
+                                    placeholder="dxl00000"
+                                    onChange={this.onChangeSite}
+                                />
+                                <TextField className={classes.texInputs}
+                                    required 
+                                    id="lat" 
+                                    label="Latitude" 
+                                    placeholder="32.1234566"
+                                    onChange={this.onChangeLat}
+                                />
+                                <TextField className={classes.texInputs}
+                                    required 
+                                    id="lng" 
+                                    label="Longitude" 
+                                    placeholder="-97.023145"
+                                    onChange={this.onChangeLng}
+                                />
+                                <TextField className={classes.texInputs} 
+                                    required 
+                                    id="description" 
+                                    label="Description"
+                                    type="string"
+                                    multiline
+                                    rowsMax={4} 
+                                    placeholder="Explain Work"
+                                    onChange={this.onChangeDesc}                        
+                                />                                                   
+                                <FormControlLabel className={classes.texInputs}
+                                    control={<Switch 
+                                    size="small"
+                                    color="primary"
+                                    name="pending" />}
+                                    label="Pending Work?"
+                                    onChange={this.handleSwitchChange}
+                                />
+                                <div className={classes.button}>
+                                    <ButtonBase type='submit' onSubmit={this.onSubmit}>
+                                        <Button onclassName={classes.texInputs}
+                                            variant="contained"
+                                            color="primary"
+                                            size="small"
+                                            startIcon={<SaveIcon />}
+                                        >
+                                            Save
+                                        </Button>
+                                    </ButtonBase>
+                                    <ButtonBase  onClick={()=>this.props.setAddLogOpen(false)}>
+                                        <Button onclassName={classes.texInputs}
+                                            variant="contained"
+                                            color="secondary"
+                                            size="small"                                >
+                                            Cancel
+                                        </Button>
+                                    </ButtonBase>
+                                </div>                      
+                        </form>                    
+                    </div>
+                </Dialog>
             )
     }
 }

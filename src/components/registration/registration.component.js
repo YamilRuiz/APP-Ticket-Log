@@ -14,7 +14,8 @@ const style = theme=>( {
         margin:'auto',
         backgroundColor: '#f5f5f5',
         padding: 20,
-        borderRadius:5
+        borderRadius:5,
+        margin:"10% 0 10% 0"
     },
     form:{
        display:'grid'
@@ -32,26 +33,26 @@ class Registration extends Component{
         this.onSubmit=this.onSubmit.bind(this);
         this.state={
             username:'',
-            password:'',
-            setUser:this.props.user
+            password:''
         };
     }
     onSubmit(e){
         e.preventDefault();
-        let user={
+        const user={
             username:this.state.username,
             password:this.state.password
         }
         axios.post('http://localhost:5000/users/register',user)
             .then(function(response){
-                
+                console.log(response)
                 if (response.status === 200){
                     window.location="/login";
-                    const data = response.data.username;                    
-                    console.log(data)
-                }else{
+                }
+            })
+            .catch (error=>{
+                if(error){
+                    alert('Something went wrong, Please Try again!!')
                     window.location="/register";
-                    console.log("It was 400")
                 }
             })
             this.setState({
@@ -77,7 +78,7 @@ class Registration extends Component{
             <Typography variant="h6" className={classes.title}>
             AT&T Network Log Registration
             </Typography>
-            <form className={classes.form} validate='true' autoComplete="off">                       
+            <form className={classes.form} onSubmit={this.onSubmit} validate='true' autoComplete="off">                       
                     <TextField className={classes.texInputs}
                         required
                         id="user"
@@ -94,13 +95,13 @@ class Registration extends Component{
                         placeholder="password"
                         onChange={this.onChangePassword}
                     />           
-                    <ButtonBase type='submit' onSubmit={this.onSubmit}>
-                    <Button onclassName={classes.texInputs}
+                    <ButtonBase type='submit'>
+                    <Button onclassName={classes.texInputs} onClick={this.onSubmit}
                         variant="contained"
                         color="primary"
                         size="small"
                     >
-                        Login
+                        SEND
                     </Button>
                     </ButtonBase>                        
             </form>

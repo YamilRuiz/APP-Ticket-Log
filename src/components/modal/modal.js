@@ -18,13 +18,13 @@ const handleClose=()=>{
             <Card>
                 <CardHeader
                     avatar={
-                    <Avatar aria-label="recipe" >
+                    <Avatar>
                         {initial}
                     </Avatar>
                     }
                     action={
-                    <IconButton aria-label="settings">
-                        <MoreVertIcon />
+                    <IconButton onClick={handleClose}>                        
+                        <CloseIcon />
                     </IconButton>
                     }
                     title={selectedLog.site}
@@ -32,13 +32,7 @@ const handleClose=()=>{
                 />
                 <CardContent>
                     <p>{selectedLog.description}</p>
-                </CardContent>
-                <CardActions>
-                    <IconButton
-                        onClick={handleClose}>
-                        <CloseIcon/>
-                    </IconButton>
-                </CardActions>                
+                </CardContent>                
             </Card>
         </Dialog>
     

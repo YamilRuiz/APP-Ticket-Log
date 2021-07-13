@@ -15,7 +15,8 @@ const style = theme=>( {
         margin:'auto',
         backgroundColor: '#f5f5f5',
         padding: 20,
-        borderRadius:5
+        borderRadius:5,
+        margin:"10% 0 10% 0"
     },
     form:{
        display:'grid'
@@ -38,36 +39,63 @@ class Login extends Component{
             password:'',
             fail:'',
             redirect: false,
-            user:''           
+            loggedIn:this.props.setloggedIn,
+            authUser:this.props.setUser,
+            updateLogs:this.props.setUserLogs,
+            userSites:this.props.setUserSites                       
         }      
-    }    
-    onSubmit(e){
-        e.preventDefault();        
-        axios.post('http://localhost:5000/users/login',{
-            username: this.state.username,
-            password:this.state.password
-        },{withCredentials:true})
-        .then (response=>{
-            if (response.status===200){
-                this.props.setUser(response.data.username)
-                this.setState({
-                    user:response.data.username,
-                    redirect:true                    
-                })
+    }
+
+    login(){      
+        return axios.post('http://localhost:5000/users/login',{username:this.state.username,password:this.state.password},{withCredentials:true})
+            .then (response=>{
+                if (response.status===200){                    
+                    this.state.loggedIn(true);
+                    this.state.authUser(response.data.username);
+              
+                    this.setState({
+                        user:response.data.username,
+                        redirect:true
+                    });             
                 }           
+            })
+            .catch (error=>{
+                if(error){
+                    alert('Something went wrong, Check your User or Password!!!')
+                }
+            })
+            
+    }
+    //
+    logs(){
+        return axios.post('http://localhost:5000/logs/findlogs',{
+            tech:this.state.username
         })
-        .catch (error=>{
-            if(error){
-                console.log(error)
-            this.setState({fail:'Something went wrong, Check your User or Password!!!'})
-            }
-            alert(this.state.fail)
+        .then(response=>{
+            this.state.updateLogs(response.data)
         })
+    }
+    sites(){
+        return axios.post('htttp://localhost:5000/users/findsites',{
+            username:this.state.username
+        })
+        .then (response=>{
+            this.state.userSites(response.data)
+        })
+    }
+    onSubmit(e){
+        e.preventDefault();
+        
+        axios.all([this.login(), this.logs(),this.sites()])
+        .then(axios.spread((loginData,logsData,sitesData)=>{
+            
+
+        }))
         this.setState({
             username:'',
             password:''
         })
-              
+
     }
     onChangeUsername(e){
         this.setState({
@@ -89,10 +117,10 @@ class Login extends Component{
             return( 
                     <div className={classes.root}>
                    
-                    <form className={classes.form} validate='true' autoComplete="off">
-                    <Typography variant="h6" className={classes.title}>
-                      AT&T Network Log Sign in
-                    </Typography>                       
+                    <form className={classes.form} onSubmit={this.onSubmit} validate='true' autoComplete="off">
+                        <Typography variant="h6" className={classes.title}>
+                        AT&T Network Log Sign in
+                        </Typography>                       
                             <TextField className={classes.texInputs}
                                 required
                                 id="user"
@@ -109,23 +137,21 @@ class Login extends Component{
                                 label="Password"
                                 placeholder="password"
                                 onChange={this.onChangePassword}
-                            />
-                                                           
-                           
-                            <ButtonBase type='submit' onSubmit={this.onSubmit}>
-                            <Button onclassName={classes.texInputs}
-                                variant="contained"
-                                color="primary"
-                                size="small"
-                            >
-                                Login
-                            </Button>
+                            />                      
+                            <ButtonBase type='submit' >
+                                <Button onclassName={classes.texInputs}
+                                    onClick={this.onSubmit}
+                                    variant="contained"
+                                    color="primary"
+                                    size="small"
+                                >
+                                    Login
+                                </Button>
                             </ButtonBase>                        
                     </form>
-                </div>
-              
+                </div>              
             )
-            }
+        }
     }
 }
 

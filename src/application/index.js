@@ -5,8 +5,8 @@ import App from './App'
 function AppDisplay() {
     return (
         <UsersContext.Consumer>{(
-            {user,setUser,setLogs,userLogs})=>
-            (<App user={user} setUser={setUser} setLogs={setLogs} userLogs={userLogs}/>)}
+            {user,setUser,setLogs,userLogs, setloggedIn, loggedIn})=>
+            (<App user={user} loggedIn={loggedIn} setUser={setUser} setLogs={setLogs} userLogs={userLogs} setloggedIn={setloggedIn} />)}
         </UsersContext.Consumer>        
     );
   }

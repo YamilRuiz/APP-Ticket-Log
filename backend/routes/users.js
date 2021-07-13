@@ -2,10 +2,6 @@ const router = require('express').Router();
 let User = require('../models/user.model');
 const passport= require('../passport/passportSetup');
 
-router.route('/').get((req,res)=>{
-    res.json("you are golden");
-});
-
 router.route('/register').post((req,res)=>{
     const username=req.body.username;
     const password=req.body.password;
@@ -30,58 +26,68 @@ router.route('/register').post((req,res)=>{
             // save the user
             newUser.save(function(err, savedUser) {
                 if (err)                    
-                    return res.json(err)
-                    res.json(savedUser)
+                    return res.json(err);
+                    res.sendStatus(400);
             });
         }
-
-    });
-    
+    });    
 });
 
 router.post(
     '/login',
     function (req, res, next) {
-        next()
+        next();
     },
     passport.authenticate('local'),
     (req, res) => {
-        req.session.save()        
+        req.session.save();
         var userInfo = {
             username: req.user.username
         };
-        res.send(userInfo)        
+        res.send(userInfo);        
     }
-)
+);
+
+router.get('/logout', function(req, res){
+    req.logout();
+    res.end();
+  }
+);
 
 router.get('/check',(req,res)=>{
     
-    if (req.isAuthenticated()){       
-        res.send(req.user.username)
+    if (req.isAuthenticated()){
+        const user= 'valid'       
+        res.send(user);
        
     }else{
-        console.log("Not Authorized")
         const user= "invalid";
-        res.send(user)
+        res.send(user);
     }
 });
 
 router.get('/firstcheck',(req,res)=>{    
-    if (req.isAuthenticated()){       
-        res.sendStatus(200)       
+    if (req.isAuthenticated()){
+        console.log('firstcheck pass')       
+        res.sendStatus(200);       
     }else{
-        console.log("Not Authorized")        
-        res.sendStatus(500)
+        console.log('firstcheck no pass')
+        res.sendStatus(500);
     }
 });
 // need to change to accept the request body
 router.post('/findsites',(req,res)=>{
     User.findOne({username:'yamil'},function(err,user){
-        const userSites= user.userLogs;        
-        res.send(userSites)
-        res.end();
-    })
-})
+        if(err){            
+            res.sendStatus(500);
+            res.end();
+        }else{
+            const userSites= user.userLogs;        
+            res.send(userSites);
+            res.end();
+        }        
+    });
+});
 //Adding a site location to the specific user completed/ Need to change so it accepts req.body information
 
 router.post('/addsite',(req,res)=>{
@@ -105,15 +111,13 @@ router.post('/addsite',(req,res)=>{
                 return o.site === location.site;
             })
             if (siteExist===undefined){
-                user.userLogs.push(location)
-                user.save()
+                user.userLogs.push(location);
+                user.save();
             }
-
-            console.log(arr[0].coords.coordinates.long)
             res.end();
     }
-    })
-})
+    });
+});
 
 
  
