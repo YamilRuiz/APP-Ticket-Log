@@ -22,7 +22,7 @@ const style= theme=>({
     }
 })
 function LogList(props){
-    const {user,userLogs}=props
+    const {user,userSites}=props
     const [open,setOpen]= useState(false)
     const [selectedLog, setSelectedLog]= useState({})
     const [addLogOpen, setAddLogOpen]= useState(false)
@@ -46,14 +46,14 @@ function LogList(props){
             </IconButton>
         </div>       
         <List >
-                {userLogs.map((log,index)=>{
+                {userSites[0].userLogs.map((log,index)=>{
                     return(                        
                         <ListItem
                             key={index}
                             button
-                            onClick={()=> console.log('click test')}                           
+                            onClick={()=> console.log(log.site)}                           
                             >
-                            <ListItemText primary={log.ticket+"   "+log.site}
+                            <ListItemText primary={log.site}
                                  />                                
                                 <ListItemSecondaryAction>                        
                                     <IconButton                                           

@@ -6,7 +6,17 @@ const Data=[
     { site:'DXL01234',ticket:'TT0000456163',description:'disse volutpat convallis leo eu pretium.',lat:32.884254, lng:-97.276890,visible:true,bounce:true},
     { site:'DXL01238',ticket:'TT0000456183',description:'in aliquet pellentesque, mi urna molestie lorem, ut sagittis libero erat nec elit. In hac habitasse platea dictumst. Suspendisse volutpat convallis leo eu pretium.',lat:32.883707, lng:-97.275264,visible:true,bounce:true},
     { site:'DXL01235',ticket:'TT0000456193',description:'in aliquet pellentesque, mi urna molestie lorem, ut sagittis libero erat nec elit. In hac habitasse platea dictumst. Suspendisse volutpat convallis leo eu pretium.',lat:32.885096, lng: -97.269809,visible:true,bounce:true}
-]
+];
+
+const UserSiteData={
+	username:'Yamil',
+	password:'xxxxxxx',
+	userLogs:[
+		{ site:'DXL01234',lat:32.884254, lng:-97.276890,visible:true,bounce:false},
+    	{ site:'DXL01238',lat:32.883707, lng:-97.275264,visible:true,bounce:false},
+    	{ site:'DXL01235',lat:32.885096, lng: -97.269809,visible:true,bounce:false}
+		]
+	};
 export const UsersContext = React.createContext();
 
 export class UserContextProvider extends Component{
@@ -14,7 +24,7 @@ export class UserContextProvider extends Component{
         user:'yr3564',
         loggedIn:false,
         userLogs:Data,
-        userSites:[]        
+        userSites:[UserSiteData]        
     }
     setUser = (u)=>{this.setState({user:u})};
     setUserLogs= (u)=>{this.setState({userLogs:u})};
@@ -26,7 +36,7 @@ export class UserContextProvider extends Component{
             <UsersContext.Provider value={{user:this.state.user, loggedIn:this.state.loggedIn,
             setUser: this.setUser, setUserLogs:this.setUserLogs, 
             setUserSites:this.setUserSites, setloggedIn:this.setloggedIn,
-            userLogs: this.state.userLogs}}>
+            userLogs: this.state.userLogs,userSites:this.state.userSites}}>
                 {this.props.children}
             </UsersContext.Provider>
         )

@@ -15,7 +15,7 @@ const style = theme=>( {
         backgroundColor: '#f5f5f5',
         padding: 20,
         borderRadius:5,
-        margin:"10% 0 10% 0"
+        margin:"10% 0"
     },
     form:{
        display:'grid'
@@ -51,7 +51,7 @@ class Registration extends Component{
             })
             .catch (error=>{
                 if(error){
-                    alert('Something went wrong, Please Try again!!')
+                    alert('Something went wrong with registration, Please Try again!!')
                     window.location="/register";
                 }
             })
@@ -89,7 +89,7 @@ class Registration extends Component{
                     /> 
                     <TextField className={classes.texInputs}
                         required
-                        id="ticketNumber"
+                        id="password"
                         type="string"
                         label="Password"
                         placeholder="password"

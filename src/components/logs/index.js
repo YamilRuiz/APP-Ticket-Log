@@ -5,8 +5,8 @@ import LogList from './logList';
 function LogLists() {
     return (
           <UsersContext.Consumer>{(
-            {user,setUser,userLogs})=>
-            (<LogList user={user} setUser={setUser} userLogs={userLogs}/>)}
+            {user,setUser,userSites})=>
+            (<LogList user={user} setUser={setUser} userSites={userSites}/>)}
           </UsersContext.Consumer>        
     );
   }

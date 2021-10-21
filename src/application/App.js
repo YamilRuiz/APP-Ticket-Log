@@ -18,7 +18,7 @@ import cover from '../images/cover.jpg'
 
 const style = theme=>( {
   root: {
-    backgroundColor: 'blue',
+    backgroundColor: 'blue'
   },
   leftPane: {
     margin:20  
@@ -48,6 +48,7 @@ const style = theme=>( {
 		backgroundSize: "cover",
 		backgroundAttachment: "fixed",
     justifyContent:"center",
+    paddingTop:10,
     width:"100%"
  },
  footer:{
@@ -98,14 +99,14 @@ const style = theme=>( {
         <Grid container xs={12} sm={12} alignContent='center' className={classes.middleContainer}>
               <Grid container  xs={12} className={classes.gridCard}>
                 <Route exact path= "/" component= {HomeCard} />
-                <Route path="/network_log" component={HomeCard} />
+                <Route exact path="/network_log" component={HomeCard} />
                 <Route exact path="/register" component={Registration}/>
                 <Route exact path="/login" component={LoginForm}/>
                 <Route exact path="/Network_Log/:user" component={UserDisplay}/>               
               </Grid>
         </Grid>          
    
-          <Grid container xs={12} sm={12}>
+          <Grid container xs={12} sm={12}>          
               <Paper className={classes.footer} elevation={0}>Site Map Information </Paper>
           </Grid>
       </Router>

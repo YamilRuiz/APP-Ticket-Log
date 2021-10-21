@@ -12,7 +12,8 @@ router.route('/register').post((req,res)=>{
 
         // check to see if theres already a user with that email
         if (user) {
-            return done(null, false);
+            done();
+           
         } else {
 
             // if there is no user with that email
@@ -20,17 +21,19 @@ router.route('/register').post((req,res)=>{
             var newUser= new User();
 
             // set the user's local credentials
-            newUser.username    = username;
+            newUser.username = username;
             newUser.password = password;
 
             // save the user
-            newUser.save(function(err, savedUser) {
-                if (err)                    
-                    return res.json(err);
-                    res.sendStatus(400);
+            newUser.save(function(err){
+                if(err){
+                    return console.log(err);
+                   }else{
+                    res.sendStatus(200);
+                   }
             });
         }
-    });    
+    }); 
 });
 
 router.post(

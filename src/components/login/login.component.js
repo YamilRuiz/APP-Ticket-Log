@@ -16,7 +16,7 @@ const style = theme=>( {
         backgroundColor: '#f5f5f5',
         padding: 20,
         borderRadius:5,
-        margin:"10% 0 10% 0"
+        margin:"10% 0"
     },
     form:{
        display:'grid'
@@ -46,8 +46,11 @@ class Login extends Component{
         }      
     }
 
-    login(){      
-        return axios.post('http://localhost:5000/users/login',{username:this.state.username,password:this.state.password},{withCredentials:true})
+
+    
+    onSubmit(e){
+        e.preventDefault();
+        axios.post('http://localhost:5000/users/login',{username:this.state.username,password:this.state.password},{withCredentials:true})
             .then (response=>{
                 if (response.status===200){                    
                     this.state.loggedIn(true);
@@ -64,33 +67,7 @@ class Login extends Component{
                     alert('Something went wrong, Check your User or Password!!!')
                 }
             })
-            
-    }
-    //
-    logs(){
-        return axios.post('http://localhost:5000/logs/findlogs',{
-            tech:this.state.username
-        })
-        .then(response=>{
-            this.state.updateLogs(response.data)
-        })
-    }
-    sites(){
-        return axios.post('htttp://localhost:5000/users/findsites',{
-            username:this.state.username
-        })
-        .then (response=>{
-            this.state.userSites(response.data)
-        })
-    }
-    onSubmit(e){
-        e.preventDefault();
-        
-        axios.all([this.login(), this.logs(),this.sites()])
-        .then(axios.spread((loginData,logsData,sitesData)=>{
-            
-
-        }))
+      
         this.setState({
             username:'',
             password:''

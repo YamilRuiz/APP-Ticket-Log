@@ -12,12 +12,12 @@ class TheMap extends Component {
     this.onMarkerclick=this.onMarkerclick.bind(this);
     this.state={
       
-      center:{ lat: props.userLogs[0].lat, lng:props.userLogs[0].lng},
+      center:{ lat:this.props.userSites[0].userLogs[0].lat, lng:this.props.userSites[0].userLogs[0].lng},
       site:"",
-      listTickets:this.props.userLogs
+      listTickets:this.props.userSites[0].userLogs
     }   
   } 
- 
+ // Will bring up modal with all logs of the site
   onMarkerclick(siteName){
   
    this.setState({

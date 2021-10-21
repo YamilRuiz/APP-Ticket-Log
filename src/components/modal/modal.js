@@ -1,9 +1,8 @@
 import React from 'react';
-import { Dialog, Card, CardContent, CardActions } from '@material-ui/core';
+import { Dialog, Card, CardContent} from '@material-ui/core';
 import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import CloseIcon from '@material-ui/icons/Close';
 
 
